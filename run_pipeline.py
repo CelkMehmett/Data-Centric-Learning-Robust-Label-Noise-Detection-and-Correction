@@ -14,6 +14,9 @@ import torch.optim as optim
 import copy
 import numpy as np
 
+from src.analysis import extract_features_and_loss, plot_tsne, plot_loss_distribution
+import os
+
 def run_pipeline(noise_type='symmetric', noise_rate=0.2, quick_mode=False):
     print(f"============================================================")
     print(f"DATA-CENTRIC AI PIPELINE ÇALIŞTIRILIYOR: {noise_type} ({noise_rate})")
@@ -22,13 +25,33 @@ def run_pipeline(noise_type='symmetric', noise_rate=0.2, quick_mode=False):
     epochs = 2 if quick_mode else 15
     cv_k = 2 if quick_mode else 4
     
+    # Rapor görselleri için klasör
+    os.makedirs('report_images', exist_ok=True)
+    
     results = {}
 
     # 1. BAZ MODEL (BASELINE)
     print("\n[ADIM 1] Gürültülü Veri Üzerinde Baz Model Eğitiliyor...")
-    acc_base, f1_base, cm_base = train_model(noise_type=noise_type, noise_rate=noise_rate, num_epochs=epochs)
+    model, acc_base, f1_base, cm_base = train_model(noise_type=noise_type, noise_rate=noise_rate, num_epochs=epochs)
     results['baseline'] = {'acc': acc_base, 'f1': f1_base}
     print(f"Baz Model Doğruluğu: {acc_base:.4f}")
+    
+    # 1.1 İLERİ ANALİZ (GÖRSELLEŞTİRME)
+    print("\n[ADIM 1.1] İleri Veri Analizi (t-SNE & Kayıp Dağılımı)...")
+    analysis_dataset = CIFAR10Noise(root='./data', train=True, download=True,
+                                    noise_type=noise_type, noise_rate=noise_rate,
+                                    transform=get_transforms(train=True)) # Eğitim seti üzerinde analiz
+    
+    features, losses, targets, clean_targets = extract_features_and_loss(model, analysis_dataset)
+    
+    # t-SNE Çizimi
+    plot_tsne(features, targets, clean_targets, 
+              title=f"t-SNE: {noise_type} ({noise_rate}) Gürültü", 
+              save_path="report_images/tsne.png")
+              
+    # Kayıp Dağılımı
+    plot_loss_distribution(losses, targets, clean_targets, 
+                           save_path="report_images/loss_dist.png")
 
     # 2. GÜRÜLTÜ TESPİTİ
     print("\n[ADIM 2] Cleanlab ile Etiket Hataları Tespit Ediliyor...")

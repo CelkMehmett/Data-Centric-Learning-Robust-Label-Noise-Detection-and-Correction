@@ -107,7 +107,7 @@ def train_model(noise_type, noise_rate, num_epochs=20, batch_size=128, learning_
     print(f"En İyi Val Acc: {best_acc:.4f}")
     print(f"F1 Skoru (Macro): {f1:.4f}")
     
-    return best_acc, f1, cm
+    return model, best_acc, f1, cm
 
 if __name__ == "__main__":
     # Örnek kullanım: Temiz veri üzerinde eğit (%0 gürültü)

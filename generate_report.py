@@ -157,6 +157,35 @@ def generate_report():
             img_b64 = get_base64_image(fig)
             html_content += f'<img src="data:image/png;base64,{img_b64}" style="width:100%; max-width:800px; display:block; margin:auto;">'
 
+    # 3. İleri Veri Analizi Görselleri
+    html_content += "<h2>🔬 İleri Veri Analizi (Advanced Visuals)</h2>"
+    html_content += "<div style='display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;'>"
+    
+    # t-SNE Resmi
+    if os.path.exists("report_images/tsne.png"):
+        with open("report_images/tsne.png", "rb") as image_file:
+            tsne_b64 = base64.b64encode(image_file.read()).decode('utf-8')
+        html_content += f"""
+        <div class="card" style="flex: 1; min-width: 400px;">
+            <h3>t-SNE Özellik Dağılımı</h3>
+            <img src="data:image/png;base64,{tsne_b64}" style="width:100%; border-radius: 4px;">
+            <p>Gürültülü etiketlerin özellik uzayındaki yerleşimi.</p>
+        </div>
+        """
+        
+    # Kayıp Dağılımı Resmi
+    if os.path.exists("report_images/loss_dist.png"):
+        with open("report_images/loss_dist.png", "rb") as image_file:
+            loss_b64 = base64.b64encode(image_file.read()).decode('utf-8')
+        html_content += f"""
+        <div class="card" style="flex: 1; min-width: 400px;">
+            <h3>Kayıp Dağılımı (Loss Distribution)</h3>
+            <img src="data:image/png;base64,{loss_b64}" style="width:100%; border-radius: 4px;">
+            <p>Temiz ve gürültülü örneklerin kayıp değerlerinin karşılaştırılması.</p>
+        </div>
+        """
+    html_content += "</div>"
+    
     html_content += """
             <div class="footer">
                 <p>Oluşturulma Tarihi: otomatik • Data-Centric AI Pipeline</p>
