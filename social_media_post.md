@@ -1,24 +1,31 @@
-# 🚀 Data-Centric AI Projesi: Etiket Gürültüsü Tespiti ve Düzeltilmesi
+# 🚀 Veri Odaklı Yapay Zeka (Data-Centric AI): Gürültü Tespiti ve Kurtarma
 
-Merhaba arkadaşlar! 👋
+**Model mimarisini değiştirmeden model performansını artırmak mümkün mü? Evet, veriyi temizleyerek!**
 
-Bugün sizlerle, model mimarisini değiştirmeden sadece veri kalitesini artırarak makine öğrenmesi performansını nasıl iyileştirebileceğimizi gösteren yeni projemi paylaşmak istiyorum: **Data-Centric AI ile Gürültü Tespiti ve Düzeltilmesi**.
+Merhaba, bugün sizlerle yeni projem **"Data-Centric Learning: Robust Label Noise Detection"**ı paylaşmaktan heyecan duyuyorum. Makine öğrenmesinde genellikle daha karmaşık modeller kurmaya odaklanılır, ancak "Çöp giren çöp çıkar" (Garbage In, Garbage Out) prensibi gereği, verimiz kötüyse en iyi model bile başarısız olacaktır.
 
-🔍 **Projenin Amacı:**
-Makine öğrenmesi projelerinde genellikle daha karmaşık modeller kurmaya odaklanılır. Ancak "Çöp giren çöp çıkar" (Garbage In, Garbage Out) prensibi gereği, verimiz kötüyse modelimiz de kötü olacaktır. Bu projede, CIFAR-10 verisetine kontrollü olarak gürültü (yanlış etiketler) ekledim ve ardından **Confident Learning (Güvenli Öğrenme)** tekniklerini kullanarak bu hataları tespit edip düzelttim.
+Bu projede, bu sorunu ele alarak CIFAR-10 verisetini kontrollü olarak bozdum, analiz ettim ve temizledim. İşte detaylar:
 
-🛠️ **Kullanılan Teknolojiler & Yöntemler:**
-*   **PyTorch & ResNet-18**: Temel model eğitimi için.
-*   **Cleanlab**: Etiket hatalarını otomatik tespit etmek için.
-*   **Aktif Öğrenme (Active Learning)**: Modelin en çok zorlandığı örnekleri seçip düzelterek verimliliği artırmak için.
-*   **Gürültü Türleri**: Simetrik (Rastgele) ve Asimetrik (Örn: Kedi -> Köpek karışıklığı) gürültü senaryoları.
+🔍 **Neler Yaptım?**
+1.  **Gürültü Enjeksiyonu**: Veriye %20-%40 oranında hatalı etiketler ekledim (Simetrik ve Sınıf-Bağımlı gürültü).
+2.  **İleri Görselleştirme (t-SNE)**: Hatalı etiketlerin özellik uzayında (feature space) nasıl davrandığını ve temiz kümelerin içine nasıl sızdığını 2 Boyutlu haritalarla görselleştirdim.
+3.  **Kayıp Analizi (Loss Analysis)**: Modelin hatalı örneklere verdiği tepkiyi (daha yüksek eğitim kaybı / forgetting events) histogramlarla kanıtladım.
+4.  **Güvenli Öğrenme (Confident Learning)**: `cleanlab` kütüphanesini kullanarak etiket hatalarını otomatik tespit ettim.
+5.  **Temizleme Stratejileri**: Hatalı verileri sadece silmekle (Drop) kalmadım; onları model uzlaşısı ile **Yeniden Etiketleme (Relabel)** ve **Yeniden Ağırlıklandırma (Reweight)** yöntemleriyle kurtarmayı denedim.
+
+🛠️ **Kullanılan Teknolojiler:**
+*   **PyTorch & ResNet-18**
+*   **Cleanlab** (Gürültü Tespiti)
+*   **t-SNE & Matplotlib** (Veri Görselleştirme)
+*   **Data-Centric AI Prensipleri**
 
 📊 **Sonuçlar:**
-Proje, modelin sadece veri temizliği yapılarak (mimari değişmeden) %X oranında daha iyi performans gösterebileceğini kanıtlıyor. Ayrıca, hangi veri temizleme stratejisinin (Silme, Yeniden Etiketleme, Ağırlıklandırma) hangi durumda daha etkili olduğunu analiz ettim.
+Sadece veriyi temizleyerek (model mimarisine dokunmadan) belirgin bir performans artışı sağladık. Özellikle **Yeniden Etiketleme (Relabel)** stratejisinin, veriyi silmeye kıyasla daha fazla bilgi koruduğunu gözlemledim.
 
-🔗 **Github Deposu:**
-Kodları ve detaylı incelemeyi burada bulabilirsiniz: [https://github.com/CelkMehmett/Data-Centric-Learning-Robust-Label-Noise-Detection-and-Correction](https://github.com/CelkMehmett/Data-Centric-Learning-Robust-Label-Noise-Detection-and-Correction)
+🔗 **Github Deposu ve Detaylı Rapor:**
+Kodlara, analiz grafiklerine ve sonuç raporuna buradan ulaşabilirsiniz:
+👉 [https://github.com/CelkMehmett/Data-Centric-Learning-Robust-Label-Noise-Detection-and-Correction](https://github.com/CelkMehmett/Data-Centric-Learning-Robust-Label-Noise-Detection-and-Correction)
 
-Bu alanda çalışan veya ilgilenen herkesle fikir alışverişinde bulunmaktan memnuniyet duyarım! Yorumlarınızı ve geri bildirimlerinizi bekliyorum. 👇
+Veri kalitesi ve Data-Centric AI alanında çalışan herkesin yorumlarını ve katkılarını bekliyorum! 👇
 
-#DataScience #MachineLearning #AI #DataCentricAI #Cleanlab #PyTorch #DeepLearning #ArtificialIntelligence
+#DataScience #MachineLearning #AI #DataCentricAI #DeepLearning #PyTorch #Cleanlab #DataQuality #BigData #ArtificialIntelligence
